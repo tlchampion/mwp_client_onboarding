@@ -118,8 +118,7 @@
           "type": "function"
         }
       ]
-      //set contract address
-      var contractAddress = '0xb06B0bE584775842ECeA4E2c70B13E433043c96A';
+      var contractAddress = '0x81a97A793210720D6006C47a1D00Cc741d49aC3e';
 
       return await new window.web3.eth.Contract(abi, contractAddress);
     }
@@ -136,12 +135,10 @@
 
         )
         .send({ from: window.currentAccount })
-        .then(function (receipt) {
-
-          // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-        });
+        .then(function (receipt) { console.log });
+      ;
       window.alert("much thanks");
-      window.location.href = "localhost:8080/deposit.html";
+      window.location.href = "deposit.html";
 
 
     }
