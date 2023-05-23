@@ -10,70 +10,57 @@
 
 
     <div id="heading">
-        <h1>Client Engagement Page</h1>
-        Welcome to the MyWealthPlan Client Engagement Page. We are pleased to have you joint the ranks of our satisfied
-        clients. Please complete the form below to begin the onboarding process. Rest assured we will not share or sell
-        your
-        information without your permission.
+        <div class="title">
+            <h1>Contact Request Form</h1>
+        </div>
 
-        After submitting your basic contact information you will be asked to submit a small deposit which will be used
-        to
-        create your account with us.
         <div class="form-signin">
             <h2 class="form-signin-heading">Please Enter Your Information</h2>
+            <div class="input-container ic1">
+                <p>
+                    First Name:
+                    <input type="text" class="form-control" size="35" id="FirstName" name="FirstName" placeholder=""
+                        required="" autofocus="" />
+                </p>
+            </div>
+            <br />
+            <div class="input-container ic2">
+                <p>
+                    Last Name:
+                    <input type="text" class="form-control" size="35" id="LastName" name="LastName" placeholder=""
+                        required="" autofocus="" />
+                </p>
+            </div>
+            <br />
+            <div class="input-container ic2">
+                <p>
+                    E-mail Address:
+                    <input type="text" class="form-control" size="35" id="EMail" name="EMail" placeholder="" required=""
+                        autofocus="" />
+                </p>
+            </div>
+            <br />
+            <div class="input-container ic2">
+                <p>
+                    Desired Portfolio:
+                    <select type="text" class="form-control" id="Portfolio" name="Portfolio" placeholder=""
+                        autofocus="">
+                        <option>Conservative</option>
+                        <option>Balanced</option>
+                        <option>Growth</option>
+                        <option>Aggressive</option>
+                        <option>Alternative</option>
+                    </select>
+                </p>
+            </div>
+            <br />
+            <br />
 
-
-            <p>
-                First Name:
-                <input type="text" class="form-control" size="35" id="FirstName" name="FirstName" placeholder=""
-                    required="" autofocus="" />
-            </p>
-            <br />
-            <p>
-                Last Name:
-                <input type="text" class="form-control" size="35" id="LastName" name="LastName" placeholder=""
-                    required="" autofocus="" />
-            </p>
-            <br />
-            <p>
-                E-mail Address:
-                <input type="text" class="form-control" size="35" id="EMail" name="EMail" placeholder="" required=""
-                    autofocus="" />
-            </p>
-            <br />
-
-            <p>
-                Desired Portfolio:
-                <select type="text" class="form-control" id="Portfolio" name="Portfolio" placeholder="" autofocus="">
-                    <option>Conservative</option>
-                    <option>Balanced</option>
-                    <option>Growth</option>
-                    <option>Aggressive</option>
-                    <option>Alternative</option>
-                </select>
-            </p>
-            <br />
-            <br />
-            </form>
 
             <button class="btn btn-lg btn-primary btn-block" onclick="formSubmit();">Save</button>
         </div>
 
-        <!--
-   <div class="wrapper">
-    <div class="form-signin">
-      <h2 class="form-signin-heading">Please Click to See Your Saved Information</h2>
-      <button class="btn btn-lg btn-primary btn-block"  onclick="retrive_information();">Show</button>
 
-      </br>
-       <div  id="id_1"></div>
-       <div class="form-control" id="name_1"></div>
-       <div class="form-control" id="last_name_1"></div>
-       <div class="form-control" id="address_1"></div>
-       <div class="form-control" id="mob_no_1"></div>
-    </div>
-  </div>
--->
     </div>
     <script type="text/javascript">
 
@@ -360,7 +347,7 @@
                 }
             ]
             //set contract address
-            var contractAddress = '0x0673d9B45d59F6effD422143D66cC1242Cb2526F';
+            var contractAddress = '0xd9145CCE52D386f254917e481eB44e9943F39138';
 
             return await new window.web3.eth.Contract(abi, contractAddress);
         }
@@ -380,7 +367,7 @@
                 .then(function (receipt) { console.log });
             ;
             window.alert("Thank You. Your information has been received and we will contact you in the near future.");
-            //window.location.href = "deposit.html";
+            window.location.href = "confirmation.html";
 
 
         }
