@@ -13,26 +13,26 @@ contract MWP {
   
   mapping(address => Client) private clients;
   address[] private userIndex;
-	address payable private companyAccount;
+    address payable private companyAccount;
 
-	event Deposit(address indexed userAddress, uint amount);
-	event Withdrawal(address indexed userAddress, uint amount);
-	event WithdrawalRequest(address indexed userAddress, uint amount);
-	event CompanyWithdrawal(address indexed userAddress, uint amount);
-	event RegisterClient(address indexed userAddress, uint index, uint balance);
-	event LogNewUser   (address indexed userAddress, uint index, string f_name, string l_name, string email, string portfolio, uint balance);
-  	event LogUpdateUser(address indexed userAddress, uint index, string f_name, string l_name, string email, string portfolio, uint balance);
+    event Deposit(address indexed userAddress, uint amount);
+    event Withdrawal(address indexed userAddress, uint amount);
+    event WithdrawalRequest(address indexed userAddress, uint amount);
+    event CompanyWithdrawal(address indexed userAddress, uint amount);
+    event RegisterClient(address indexed userAddress, uint index, uint balance);
+    event LogNewUser   (address indexed userAddress, uint index, string f_name, string l_name, string email, string portfolio, uint balance);
+    event LogUpdateUser(address indexed userAddress, uint index, string f_name, string l_name, string email, string portfolio, uint balance);
 
-	modifier onlyCompany() {
-	    require(msg.sender == companyAccount, "Only Admin can access this function");
-	    _;
-	}
+    modifier onlyCompany() {
+        require(msg.sender == companyAccount, "Only Admin can access this function");
+        _;
+    }
 
-	modifier onlyClient() {
-	   // require(clients[msg.sender].isRegistered, "Only registered clients can access this function");
-	   require(isUser(msg.sender), "Only registered clients can access this function");
-	    _;
-	}
+    modifier onlyClient() {
+       // require(clients[msg.sender].isRegistered, "Only registered clients can access this function");
+       require(isUser(msg.sender), "Only registered clients can access this function");
+        _;
+    }
 
 
   function isUser(address userAddress)
@@ -60,7 +60,7 @@ contract MWP {
     clients[userAddress].l_name = l_name;
     clients[userAddress].email   = email;
     clients[userAddress].portfolio   = portfolio;
-    clients[userAddress].balance = 0;
+    clients[userAddress].balance = balance;
     clients[userAddress].index     = userIndex.push(userAddress)-1;
     emit LogNewUser(
         userAddress, 
