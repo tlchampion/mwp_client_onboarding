@@ -1,0 +1,107 @@
+body {
+align-items: center;
+background-color: #f5f7fa;
+display: flex;
+justify-content: center;
+height: 100vh;
+font-family: Arial, sans-serif;
+}
+
+#heading {
+font: small-caps bold 20px/1.5;
+  margin: auto;
+  width: 60%;
+  border: 3px solid #336699;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.title {
+color: #336699;
+font-size: 36px;
+font-weight: 600;
+margin-top: 20px;
+}
+
+.subtitle {
+color: #336699;
+font-size: 16px;
+font-weight: 600;
+margin-top: 10px;
+}
+
+.form-signin {
+max-width: 600px;
+padding: 30px;
+margin: 20px auto;
+background-color: #fff;
+border: 1px solid rgba(51, 102, 153, 0.1);
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+text-align: left;
+}
+
+.form-signin-heading {
+margin-bottom: 20px;
+color: #336699;
+font-size: 24px;
+font-weight: 600;
+}
+
+.form-control {
+position: relative;
+font-size: 16px;
+height: 40px;
+padding: 10px;
+color: #333;
+border: 1px solid #ccc;
+border-radius: 4px;
+width: 95%;
+
+&:focus {
+  outline: none;
+  border-color: #336699;
+  box-shadow: 0px 0px 5px rgba(51, 102, 153, 0.3);
+}
+}
+
+.input-container {
+margin-bottom: 20px;
+}
+
+.btn-primary {
+background-color: #336699;
+  border-color: #336699;
+  color: #fff;
+  font-size: 16px;
+font-weight: bold;
+padding: 10px 20px;
+border-radius: 4px;
+cursor: pointer;
+display: block;
+margin: 0 auto;
+
+&:hover {
+  background-color: #1c4c8c;
+  border-color: #1c4c8c;
+}
+}
+
+select.form-control {
+height: 40px;
+padding: 5px;
+}
+
+.error-message {
+color: #ff0000;
+font-size: 14px;
+margin-top: 5px;
+}
+
+.success-message {
+color: #008000;
+font-size: 14px;
+margin-top: 5px;
+}
+
