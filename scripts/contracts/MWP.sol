@@ -11,17 +11,22 @@ contract MWP {
      uint index;
   }
   
+  address payable private companyAccount;
+  constructor() public {
+    companyAccount = msg.sender;
+  }
+
   mapping(address => Client) private clients;
   address[] private userIndex;
-    address payable private companyAccount;
+
 
     event Deposit(address indexed userAddress, uint amount);
     event Withdrawal(address indexed userAddress, uint amount);
     event WithdrawalRequest(address indexed userAddress, uint amount);
     event CompanyWithdrawal(address indexed userAddress, uint amount);
     event RegisterClient(address indexed userAddress, uint index, uint balance);
-    event LogNewUser   (address indexed userAddress, uint index, string f_name, string l_name, string email, string portfolio, uint balance);
-    event LogUpdateUser(address indexed userAddress, uint index, string f_name, string l_name, string email, string portfolio, uint balance);
+    event LogNewUser(address indexed userAddress, uint index, string f_name, string l_name, string email, string portfolio, uint balance);
+  event LogUpdateUser(address indexed userAddress, uint index, string f_name, string l_name, string email, string portfolio, uint balance);
 
     modifier onlyCompany() {
         require(msg.sender == companyAccount, "Only Admin can access this function");
@@ -60,7 +65,7 @@ contract MWP {
     clients[userAddress].l_name = l_name;
     clients[userAddress].email   = email;
     clients[userAddress].portfolio   = portfolio;
-    clients[userAddress].balance = balance;
+    clients[userAddress].balance = 0;
     clients[userAddress].index     = userIndex.push(userAddress)-1;
     emit LogNewUser(
         userAddress, 
@@ -130,7 +135,6 @@ contract MWP {
   function getUser(address userAddress)
     public 
     view
-    onlyCompany
     returns(string memory f_name, string memory l_name, string memory email, string memory portfolio,uint balance, uint index)
   {
     require(isUser(userAddress), "Not a current user"); 
@@ -145,8 +149,6 @@ contract MWP {
   
   function updateUserEmail(address userAddress, string memory email) 
     public
-    onlyCompany
-     
   {
     require(isUser(userAddress), "Not a current user"); 
     clients[userAddress].email = email;
@@ -180,18 +182,6 @@ contract MWP {
     return userIndex[index];
   }
 
-//    function isUser(address userAddress)
-//         public 
-//         view
-//         returns(bool isIndeed) 
-//     {
-//         if(userIndex.length == 0) return false;
-//         return (userIndex[clients[userAddress].index] == userAddress);
-//     }
-
-
-
-
     function setCompanyAccount(address payable _companyAccount) public {
         companyAccount = _companyAccount;
     }
@@ -206,8 +196,8 @@ contract MWP {
             clients[userAddress].balance); 
     }
 
-    function getUserBalance() public view onlyClient returns (uint) {
-        return clients[msg.sender].balance;
+    function getUserBalance(address userAddress) public view returns (uint) {
+        return clients[userAddress].balance;
     }
 
 
@@ -216,8 +206,14 @@ contract MWP {
     }
 
     function getCompanyBalance() public view onlyCompany returns (uint) {
-        return address(this).balance;
+        return companyAccount.balance;
     }
+
+    function getContractBalance() public view onlyCompany returns (uint) {
+      return address(this).balance;
+    }
+
+
 
     function deposit() public payable onlyClient {
         uint amount = msg.value;
@@ -235,17 +231,9 @@ contract MWP {
         emit WithdrawalRequest(msg.sender, _amount); //For withdrawal, the client sends a request that has to be approved by the company
     }
 
-    function approveWithdrawal(address payable _userAddress, uint _amount) public onlyCompany {
-        require(isUser(_userAddress), "Client is not registered");
-        require(clients[_userAddress].balance >= _amount, "Insufficient balance");
-
-        clients[_userAddress].balance -= _amount;
-        _userAddress.transfer(_amount);
-        emit Withdrawal(_userAddress, _amount);
-    }
 
     function sendMoneyToClient(address payable _userAddress, uint _amount) public onlyCompany {
-        require(_amount <= address(this).balance, "Insufficient balance");
+        require(_amount <= companyAccount.balance, "Insufficient balance");
         _userAddress.transfer(_amount);
         emit CompanyWithdrawal(_userAddress, _amount);
     }
