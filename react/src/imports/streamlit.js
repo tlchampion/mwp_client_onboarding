@@ -1,0 +1,1 @@
+export const streamlitURL = "http://localhost:8501"

@@ -3,6 +3,8 @@ import "./App.css";
 import "./start.css";
 import logo from './logo.png';
 import "./dropdown.css";
+// import { panelURL } from './imports/panel';
+import { streamlitURL } from './imports/streamlit';
 
 const Confirmation = () => {
     return (
@@ -16,11 +18,11 @@ const Confirmation = () => {
                       <div class="container">
                           <div class="navbar-brand">
                               <span class="navbar-logo">
-                                  <a href="#">
-                                      <img src={logo}  style={{height: '3.8rem'}} />
+                                  <a href="http://localhost:3000">
+                                      <img src={logo}  style={{height: '3.8rem'}} alt="company logo"/>
                                   </a>
                               </span>
-                              <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="#"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        MyWealthPath      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br/><br/></a></span>
+                              <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="http://localhost:3000"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        MyWealthPath      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br/><br/></a></span>
                           </div>
 
       {/* <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,8 +35,8 @@ const Confirmation = () => {
       </button> */}
 
                           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                              <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="#">Current Clients</a></li>
-                                  <li class="nav-item"><a class="nav-link link text-black display-4" href="#">Advisors<br/><br/></a></li></ul>
+                              <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href={ streamlitURL } target="_blank" rel="noreferrer">Current Clients</a></li>
+                                  <li class="nav-item"><a class="nav-link link text-black display-4" href= { streamlitURL } target="_blank" rel="noreferrer">Advisors<br/><br/></a></li></ul>
 
 
                           </div>

@@ -6,23 +6,63 @@ ganache_url = "HTTP://127.0.0.1:7545"
 web3 = Web3(Web3.HTTPProvider(ganache_url))
 
 # Contract address and ABI
-contract_address = "0xBEd06061D8F9505Dc800e4D1aAE1C8C7E9A9263F"
+contract_address = "0x1702BeFEeEA2E8a78f4Bef619056F71686B884d2"
 contract_abi = [
     {
         "constant": False,
         "inputs": [
             {
-                "internalType": "address payable",
-                "name": "_userAddress",
+                "internalType": "address",
+                "name": "_to",
+                                "type": "address"
+            }
+        ],
+        "name": "companyDeposit",
+        "outputs": [],
+        "payable": True,
+                "stateMutability": "payable",
+                "type": "function"
+    },
+    {
+        "inputs": [],
+        "payable": False,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": False,
+        "inputs": [
+            {
+                "indexed": True,
+                "internalType": "address",
+                "name": "userAddress",
+                                "type": "address"
+            },
+            {
+                "indexed": False,
+                "internalType": "uint256",
+                "name": "amount",
+                                "type": "uint256"
+            }
+        ],
+        "name": "CompanyDeposit",
+        "type": "event"
+    },
+    {
+        "constant": False,
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_from",
                                 "type": "address"
             },
             {
                 "internalType": "uint256",
-                "name": "_amount",
+                "name": "amount",
                                 "type": "uint256"
             }
         ],
-        "name": "approveWithdrawal",
+        "name": "companyWithdrawal",
         "outputs": [],
         "payable": False,
                 "stateMutability": "nonpayable",
@@ -46,15 +86,6 @@ contract_abi = [
         ],
         "name": "CompanyWithdrawal",
         "type": "event"
-    },
-    {
-        "constant": False,
-        "inputs": [],
-        "name": "deposit",
-                "outputs": [],
-                "payable": True,
-                "stateMutability": "payable",
-                "type": "function"
     },
     {
         "anonymous": False,
@@ -287,41 +318,6 @@ contract_abi = [
         "constant": False,
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "_amount",
-                                "type": "uint256"
-            }
-        ],
-        "name": "requestWithdrawal",
-        "outputs": [],
-        "payable": False,
-                "stateMutability": "nonpayable",
-                "type": "function"
-    },
-    {
-        "constant": False,
-        "inputs": [
-            {
-                "internalType": "address payable",
-                "name": "_userAddress",
-                                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_amount",
-                                "type": "uint256"
-            }
-        ],
-        "name": "sendMoneyToClient",
-        "outputs": [],
-        "payable": False,
-                "stateMutability": "nonpayable",
-                "type": "function"
-    },
-    {
-        "constant": False,
-        "inputs": [
-            {
                 "internalType": "address payable",
                 "name": "_companyAccount",
                                 "type": "address"
@@ -354,6 +350,35 @@ contract_abi = [
                 "type": "function"
     },
     {
+        "constant": False,
+        "inputs": [],
+        "name": "userDeposit",
+                "outputs": [],
+                "payable": True,
+                "stateMutability": "payable",
+                "type": "function"
+    },
+    {
+        "constant": False,
+        "inputs": [
+            {
+                "internalType": "address payable",
+                "name": "_to",
+                                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                                "type": "uint256"
+            }
+        ],
+        "name": "userWithdrawal",
+        "outputs": [],
+        "payable": False,
+                "stateMutability": "nonpayable",
+                "type": "function"
+    },
+    {
         "anonymous": False,
         "inputs": [
             {
@@ -373,39 +398,14 @@ contract_abi = [
         "type": "event"
     },
     {
-        "anonymous": False,
-        "inputs": [
-            {
-                "indexed": True,
-                "internalType": "address",
-                "name": "userAddress",
-                                "type": "address"
-            },
-            {
-                "indexed": False,
-                "internalType": "uint256",
-                "name": "amount",
-                                "type": "uint256"
-            }
-        ],
-        "name": "WithdrawalRequest",
-        "type": "event"
-    },
-    {
         "constant": True,
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_userAddress",
-                                "type": "address"
-            }
-        ],
-        "name": "getClientBalance",
-        "outputs": [
+        "inputs": [],
+        "name": "getCompanyBalance",
+                "outputs": [
             {
                 "internalType": "uint256",
                 "name": "",
-                        "type": "uint256"
+                "type": "uint256"
             }
         ],
         "payable": False,
@@ -415,7 +415,7 @@ contract_abi = [
     {
         "constant": True,
         "inputs": [],
-        "name": "getCompanyBalance",
+        "name": "getContractBalance",
                 "outputs": [
             {
                 "internalType": "uint256",
@@ -496,13 +496,19 @@ contract_abi = [
     },
     {
         "constant": True,
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "userAddress",
+                                "type": "address"
+            }
+        ],
         "name": "getUserBalance",
-                "outputs": [
+        "outputs": [
             {
                 "internalType": "uint256",
                 "name": "",
-                "type": "uint256"
+                        "type": "uint256"
             }
         ],
         "payable": False,
@@ -549,78 +555,110 @@ contract_abi = [
 
 # Contract instance
 contract = web3.eth.contract(address=contract_address, abi=contract_abi)
-
+accounts = web3.eth.accounts
+company_account = accounts[0]
 # Streamlit app
-st.title("Investment Platform")
+header_style = "<h1 style='color: #88ccc9;'>Investment Platform &#x1F4C8;</h1>"
+st.markdown(header_style, unsafe_allow_html=True)
 
 portal = st.sidebar.radio("Select Portal", ("Client Portal", "Admin Portal"))
-accounts = web3.eth.accounts
-account_address = st.selectbox("Select Client Account", options=accounts[1:])
+
+
 if portal == "Client Portal":
-    st.subheader("Client Portal")
+
+    subheader_style = "<h2 style='color: #abdbd9;'>Client Portal</h2>"
+    st.markdown(subheader_style, unsafe_allow_html=True)
 
     # Client sign-in and balance check
-   # account_address = st.text_input("Account Address")
+    st.markdown("### Client Sign-in :rocket:")
 
-    amount = int(st.number_input("Amount"))
-
-    if st.button("Client Sign-in"):
+    account_address = st.selectbox(
+        "Select Client Account", options=accounts[1:])
+    if st.button("Sign-in"):
         contract.functions.isUser(account_address).call(
             {'from': account_address})
         st.success("You are signed in!")
-        client_balance = contract.functions.getUserBalance().call()
+        # Display the balance on the Streamlit page
+        client_balance = contract.functions.getUserBalance(
+            account_address).call({'from': account_address})
         st.info(f"Your Balance is: {client_balance}")
 
-        # Client transfer of funds to the Company Account
-    if st.button("Deposit funds"):
+    st.markdown("### Deposit or Withdrawal of funds :moneybag:")
 
-        contract.functions.deposit().transact(
+    amount = int(st.number_input("Amount"))
+
+    # Client transfering funds to their account
+    if st.button("Deposit"):
+        contract.functions.userDeposit().transact(
             {'from': account_address, 'value': amount})
-        st.success("Deposit successful!")
+        client_balance = contract.functions.getUserBalance(
+            account_address).call({'from': account_address})
+        st.success(
+            f"Deposit successful! Your New Balance is: {client_balance}")
 
-        # Client requesting funds withdrawal to the Company
+    # Client requesting withrawing funds from their account
     if st.button("Withdraw"):
-
-        contract.functions.requestWithdrawal(
-            amount).transact({'from': account_address})
-        st.success("Withdrawal request sent to company!")
+        contract.functions.userWithdrawal(account_address, amount).transact(
+            {'from': account_address, 'value': amount})
+        client_balance = contract.functions.getUserBalance(
+            account_address).call({'from': account_address})
+        st.success(
+            f"Successful Withdrawal! Your New Balance is: {client_balance}")
 
 else:
-    st.subheader("Admin Portal")
+
+    subheader_style_admin = "<h2 style='color: #abdbd9;'>Admin Portal</h2>"
+    st.markdown(subheader_style_admin, unsafe_allow_html=True)
 
     # Company account information
-    company_account = accounts[0]
+    st.markdown("### Company Account :rocket:")
+    # company_account = contract.functions.companyAccount().call()
+    st.write("Company Account:", company_account)
+    # accounts = web3.eth.accounts
+    # company_account = st.selectbox("Company Account Address", options=accounts[:1])
 
-    if st.button("Go to Company Account"):
-        contract.functions.setCompanyAccount(company_account).transact()
-        st.success("Company account set successfully!")
-
-        company_balance = contract.functions.getCompanyBalance().call()
+    if st.button("Check Company Account"):
+        company_balance = contract.functions.getCompanyBalance().call(
+            {'from': company_account})
         st.info(f"Company Balance: {company_balance}")
 
+    st.markdown("### Sending or Withdrawal of funds :moneybag:")
+    company_amount = int(st.number_input("Amount"))
+    client_address = st.selectbox(
+        "Select Client Account", options=accounts[1:])
+
+    # Display Client Data
+    if st.button("Display Client Data"):
+        f_name = contract.functions.getUser(
+            client_address).call({'from': client_address})[0]
+        l_name = contract.functions.getUser(
+            client_address).call({'from': client_address})[1]
+        email = contract.functions.getUser(
+            client_address).call({'from': client_address})[2]
+        portfolio = contract.functions.getUser(
+            client_address).call({'from': client_address})[3]
+
+        st.write("First Name:", f_name)
+        st.write("Last Name:", l_name)
+        st.write("Email:", email)
+        st.write("Portfolio:", portfolio)
+
+    # Send Money to Client
     if st.button("Send Money to Client"):
-        client_address = st.text_input("Client Address")
-        amount = st.number_input("Amount")
-        contract.functions.sendMoneyToClient(client_address, amount).transact()
+        contract.functions.companyDeposit(company_amount).transact(
+            {'from': company_account, 'value': company_amount})
         st.success("Money sent to client!")
+        # Check Company Balance
+        company_balance = contract.functions.getCompanyBalance().call(
+            {'from': company_account})
+        st.success(f"The remaining company Balance is: {company_balance}")
 
-    withdrawal_requests = st.button("View Withdrawal Requests")
-
-    if withdrawal_requests:
-        withdrawal_logs = web3.eth.getLogs({
-            "fromBlock": 0,
-            "toBlock": "latest",
-            "address": contract_address,
-            "topics": [web3.keccak(text="WithdrawalRequest(address,uint256)").hex()]
-        })
-
-        for log in withdrawal_logs:
-            log_data = contract.events.WithdrawalRequest().processLog(log)
-            client_address = log_data[0]['args']['clientAddress']
-            withdrawal_amount = log_data[0]['args']['amount']
-            approved = st.checkbox(
-                f"Approve withdrawal of {withdrawal_amount} ETH for {client_address}")
-            if approved:
-                contract.functions.approveWithdrawal(
-                    client_address, withdrawal_amount).transact()
-                st.success(f"Withdrawal approved for {client_address}")
+    # Withdraw Money from Client
+    if st.button("Withdraw Money from Client"):
+        contract.functions.companyWithdrawal(
+            company_amount).transact({'value': company_amount})
+        st.success("Money received from client's contract!")
+        # Check Company Balance
+        contract_balance = contract.functions.getContractBalance().call()
+        st.success(
+            f"The resulting balance in the client's contract is: {company_balance}")

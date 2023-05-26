@@ -21,7 +21,7 @@ import modules.MCTab as MCTab
 import modules.intro as intro
 import modules.profile as prf
 import modules.AlgoTab as at
-import modules.algorithmic_functions as af
+
 
 from joblib import dump, load
 
@@ -417,7 +417,7 @@ template.main.append(main_display)
 # displaying dashboard
 
 
-template.show()
+template.servable()
 
 
 
