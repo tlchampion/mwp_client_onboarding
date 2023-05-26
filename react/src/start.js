@@ -1,10 +1,12 @@
 import React from 'react';
 import "./App.css";
 import "./start.css";
-import { Panel } from "./panel";
+// import { Panel } from "./panel";
 import logo from './logo.png';
-import header from './header.jpg';
+// import header from './header.jpg';
 import "./dropdown.css";
+import { panelURL } from './imports/panel';
+import { streamlitURL } from './imports/streamlit';
 
 const Start = () => {
     return (
@@ -18,11 +20,11 @@ const Start = () => {
                 <div class="container">
                     <div class="navbar-brand">
                         <span class="navbar-logo">
-                            <a href="#">
-                                <img src={logo}  style={{height: '3.8rem'}} />
+                            <a href="http://localhost:3000">
+                                <img src={logo}  style={{height: '3.8rem'}} alt="company logo" />
                             </a>
                         </span>
-                        <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="#"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        MyWealthPath      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br/><br/></a></span>
+                        <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="http://localhost:3000"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        MyWealthPath      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br/><br/></a></span>
                     </div>
 
 {/* <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,8 +37,8 @@ const Start = () => {
 </button> */}
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="#">Current Clients</a></li>
-                            <li class="nav-item"><a class="nav-link link text-black display-4" href="#">Advisors<br/><br/></a></li></ul>
+                        <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href= { streamlitURL } target="_blank" rel="noreferrer">Current Clients</a></li>
+                            <li class="nav-item"><a class="nav-link link text-black display-4" href={ streamlitURL } target="_blank" rel="noreferrer">Advisors<br/><br/></a></li></ul>
 
 
                     </div>
@@ -58,7 +60,7 @@ const Start = () => {
                         <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1"><strong>Welcome</strong></h1>
 
                         <p class="mbr-text mbr-fonts-style display-7">Here at MyWealthPath we are dedicated to your financial success. Offering multiple investment opportunities we have not doubt that we can find a solution to meet your needs, whatever they are.<br/><br/>To review information about our investment strategies please use the button below.</p>
-                        <div class="mbr-section-btn mt-3"><a class="btn btn-success display-4" href={Panel} target="_blank" rel="noreferrer">Show Me!</a></div>
+                        <div class="mbr-section-btn mt-3"><a class="btn btn-success display-4" href= { panelURL } target="_blank" rel="noreferrer">Show Me!</a></div>
 
                        <p class="mbr-text mbr-fonts-style display-7"> If you would like to work with us to meet your investment needs, please use the button below to access our contact form.  Once we receive your information we will initiate the account creation process and reach out to you within 7 to 10 business days to answer any questions you have and complete the onboarding process.</p>
 
