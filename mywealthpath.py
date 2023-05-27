@@ -31,7 +31,7 @@ from joblib import dump, load
 
 # initialize the dashboard framework
 
-template = FastListTemplate(title="MyWealthPath", header_background = 'blue')
+template = FastListTemplate(title="MyWealthPath", header_background = 'blue', favicon="images/favicon.ico")
 
 
 
