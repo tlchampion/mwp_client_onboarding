@@ -7,6 +7,8 @@ import json
 
 load_dotenv()
 
+def convert_to_eth(wei):
+    return wei/1000000000000000000
 
 # Ganache connection settings
 # ganache_url = "HTTP://127.0.0.1:7545"
@@ -48,7 +50,7 @@ if portal == "Client Portal":
         # Display the balance on the Streamlit page
         client_balance = contract.functions.getUserBalance(
             account_address).call({'from': account_address})
-        st.info(f"Your Balance is: {client_balance}")
+        st.info(f"Your Balance is: {client_balance:,} Wei ({convert_to_eth(client_balance):.4f} ETH)")
 
     st.markdown("### Deposit or Withdrawal of funds :moneybag:")
 
@@ -61,7 +63,7 @@ if portal == "Client Portal":
         client_balance = contract.functions.getUserBalance(
             account_address).call({'from': account_address})
         st.success(
-            f"Deposit successful! Your New Balance is: {client_balance}")
+            f"Deposit successful! Your New Balance is: {client_balance:,} Wei ({convert_to_eth(client_balance):.4f} ETH)")
 
     # Client requesting withrawing funds from their account
     if st.button("Withdraw"):
@@ -70,7 +72,7 @@ if portal == "Client Portal":
         client_balance = contract.functions.getUserBalance(
             account_address).call({'from': account_address})
         st.success(
-            f"Successful Withdrawal! Your New Balance is: {client_balance}")
+            f"Successful Withdrawal! Your New Balance is: {client_balance:,} Wei ({convert_to_eth(client_balance):.4f} ETH)")
 
 else:
 
@@ -87,7 +89,7 @@ else:
     if st.button("Check Company Account"):
         company_balance = contract.functions.getCompanyBalance().call(
             {'from': company_account})
-        st.info(f"Company Balance: {company_balance}")
+        st.info(f"Company Balance: {company_balance:,} Wei ({convert_to_eth(company_balance):.4f} ETH)")
 
     st.markdown("### Sending or Withdrawal of funds :moneybag:")
     company_amount = int(st.number_input("Amount"))
@@ -118,7 +120,7 @@ else:
         # Check Company Balance
         company_balance = contract.functions.getCompanyBalance().call(
             {'from': company_account})
-        st.success(f"The remaining company Balance is: {company_balance}")
+        st.success(f"The remaining company Balance is: {company_balance:,} Wei ({convert_to_eth(company_balance):.4f} ETH)")
 
     # Withdraw Money from Client
     if st.button("Withdraw Money from Client"):
@@ -128,4 +130,4 @@ else:
         # Check Company Balance
         contract_balance = contract.functions.getContractBalance().call()
         st.success(
-            f"The resulting balance in the client's contract is: {company_balance}")
+            f"The resulting balance in the client's contract is: {company_balance:,} Wei ({convert_to_eth(company_balance):.4f} ETH)")
