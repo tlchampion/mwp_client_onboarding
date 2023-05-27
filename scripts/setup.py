@@ -1,9 +1,15 @@
 import questionary
 import sys
+import re
 
 with open('../solidity_contract/abi.txt', 'r') as abiText:
     abiData = abiText.read()
 
+abiData_caps = re.sub(r"true", "True", abiData)
+abiData_caps = re.sub(r"false", "False", abiData_caps)
+
+abiData_lower = re.sub(r"True", "true", abiData)
+abiData_lower = re.sub(r"False", "false", abiData_lower)
 
 # print(data)
 
@@ -35,6 +41,9 @@ if abiCheck:
 with open("../streamlit/.env","w") as envFile:
     envFile.write(f"""SMART_CONTRACT_ADDRESS = "{contractAddr}"\nWEB3_PROVIDER_URI = "{web3Address}" """)
 
+with open("../streamlit/abi.json","w") as abi:
+    abi.write(f"{abiData_lower}")
+
 # write files for use with react: contract address, ABI, streamlit url, panel url
 with open("../react/src/imports/streamlit.js", "w") as streamlit:
     streamlit.write(f'export const streamlitURL = "{streamlitURL}"')
@@ -46,7 +55,9 @@ with open("../react/src/imports/contract.js","w") as contract:
     contract.write(f'export const contractAddr = "{contractAddr}"')
 
 with open("../react/src/imports/abi.js", "w") as abi:
-    abi.write(f"export const contractABI = {abiData}")
+    abi.write(f"export const contractABI = {abiData_lower}")
 
 with open("../react/.env", "w") as env:
     env.write("GENERATE_SOURCEMAP=false")
+
+

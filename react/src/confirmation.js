@@ -18,11 +18,11 @@ const Confirmation = () => {
                       <div class="container">
                           <div class="navbar-brand">
                               <span class="navbar-logo">
-                                  <a href="http://localhost:3000">
+                                  <a href="/">
                                       <img src={logo}  style={{height: '3.8rem'}} alt="company logo"/>
                                   </a>
                               </span>
-                              <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="http://localhost:3000"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        MyWealthPath      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br/><br/></a></span>
+                              <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="/"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        MyWealthPath      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br/><br/></a></span>
                           </div>
 
       {/* <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
