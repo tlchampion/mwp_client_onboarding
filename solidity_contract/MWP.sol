@@ -51,7 +51,7 @@ contract MWP {
     view
     returns(bool isIndeed)
   {
-    if(userIndex.length == 0) return False;
+    if(userIndex.length == 0) return false;
     return (userIndex[clients[userAddress].index] == userAddress);
   }
 

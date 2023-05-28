@@ -2,11 +2,13 @@
 .vscode
 .env
 modeling/hp/
+react/node_modules/
 # images/
 # data/
 # MCdata/
 # modeling/data/
 # modeling/saved_models/
+
 
 
 # Byte-compiled / optimized / DLL files

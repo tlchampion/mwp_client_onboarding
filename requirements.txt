@@ -14,4 +14,10 @@ scipy==1.10.1
 seaborn==0.12.2
 tensorflow==2.11.1
 yahoo-fin==0.8.9.1
+altair==4.0.0
+streamlit==1.22.0
+web3==5.31.0
+questionary==1.10.0
+
+
 
