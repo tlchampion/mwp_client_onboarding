@@ -73,12 +73,15 @@ if portal == "Client Portal":
     # Client transfering funds to their account
     if st.button("Deposit"):
         if contract.functions.isUser(account_address).call({'from': account_address}) == True:
-            contract.functions.userDeposit().transact(
-            {'from': account_address, 'value': amount})
-            client_balance = contract.functions.getUserBalance(
-            account_address).call({'from': account_address})
-            st.success(
-            f"Deposit successful! Your New Balance is: {client_balance:,} Wei ({convert_to_eth(client_balance):.4f} ETH)")
+            try:
+                contract.functions.userDeposit().transact(
+                {'from': account_address, 'value': amount})
+                client_balance = contract.functions.getUserBalance(
+                account_address).call({'from': account_address})
+                st.success(
+                f"Deposit successful! Your New Balance is: {client_balance:,} Wei ({convert_to_eth(client_balance):.4f} ETH)")
+            except:
+                st.warning("Unable to process deposit. Please verify that your wallet has enough funds")
         else:
             st.warning("Only registered clients may make a deposit")
 
