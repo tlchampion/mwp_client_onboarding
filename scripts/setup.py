@@ -20,6 +20,7 @@ panelURL = "http://localhost:9501"
 streamlitURL = "http://localhost:8501"
 web3Address = "http://127.0.0.1:7545"
 contractAddr = questionary.text("What is the contract address?").ask()
+companyAddr = questionary.text("What is the public address for the account you used to deploy the contract?").ask()
 checkPanelURL = questionary.confirm("Is Panel running on the recommended port 9501").ask()
 if checkPanelURL == False:
     panelURL = questionary.text("What is the full URL for the Panel Dashboard?").ask()
@@ -39,7 +40,7 @@ if abiCheck:
 
 # write .env file for streamlit. Need to add in the contract address and the Web3 provider address
 with open("../streamlit/.env","w") as envFile:
-    envFile.write(f"""SMART_CONTRACT_ADDRESS = "{contractAddr}"\nWEB3_PROVIDER_URI = "{web3Address}" """)
+    envFile.write(f"""SMART_CONTRACT_ADDRESS = "{contractAddr}"\nWEB3_PROVIDER_URI = "{web3Address}"\nCOMPANY_ADDRESS ="{companyAddr}" """)
 
 with open("../streamlit/abi.json","w") as abi:
     abi.write(f"{abiData_lower}")
