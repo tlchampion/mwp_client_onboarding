@@ -1,24 +1,24 @@
+# MyWealthPath Application 
 
-# MyWealthPath Algorithmic Trading and ML Tool
+This project consists of three related applications intended for use by a fictitious financial investment company, MyWealthPath. The applications are:
 
-This Project is a Dashboard application that expands upon the [Portfolio Selection and Simulation Tool](https://github.com/LourdesDB/personal_financial_advisor) already created in Project 1, MyWealthPath.
+* Company website developed using a React framework which is intended to provide prospective clients with information about the investment company and allowing them to request additional information using a contact form.  In addition, the website contains links for existing clients and MyWealthPath financial advisors to access their respective company dashboards
 
-In that **initial project**, a Portfolio Selection Tool was created as a dashboard application designed to determine a user's risk tolerance for investments (online questionnaire). Based upon that tolerance, they are presented with information on one of 5 preselected portfolios who's asset weightings align with the user's risk tolerance. After being matched to a portfolio, the user can navigate between 3 informational tabs to find details related to their portfolio, including asset category weights, historical performance and potential future performance (Montecarlo simulation).
+* Streamlit application serving as a placeholder and development environment for both the client and financial advisor dashboards. Each respective dashboard demonstrates a set of basic functions intended to facilitate the transfer of funds between the client and company.
 
-In this **second phase** of the project, the user has access to a new tool that allows them to:
+* Holoviz Panel dashboard which provides potential clients with details on the investment options available through MyWealthPath based upon their personal Risk Profile Score. 
 
-* Choose amoung different Trading Strategies that enhance the Portfolio performance beyond the base 'buy and hold' strategy
-* Backtest the performance of the strategy of choice and benchmark it against a Market reference.
-* Run the Monte Carlo simulation for expected future returns
-* Get a more customized prediction based on a ML model selected by the tool among many as the most accurate and best performing one
-
-For this second Project, a full description of the analysis process and coding has been created in the [Data](https://github.com/tlchampion/mwp_algorithmic_trading/blob/main/data/README.md) and [Modeling](https://github.com/tlchampion/mwp_algorithmic_trading/blob/main/modeling/README.md) specific README files.
-
-And a more detailed presentation can be found [Here](./MyWealthPath_Project_2.pptx).  
+A blockchain smart contract written using the Solidity language provides the backbone for the contact form as well as for the financial transactions between the client and company.
 
 ---
 
 ## Technologies
+
+Blockchain functionality is provided by code written in [Solidity](https://soliditylang.org). The local testing network relies upon the [Remix IDE](https://remix.ethereum.org/), [Ganache](https://trufflesuite.com/ganache/) and [Metamask](https://metamask.io).
+
+The MyWealthPath website was built using the [React](https://react.dev) library and is dependent upon the [Node.js](https://nodejs.org/en/about) JavaScript runtime.
+
+The mockup for client and advisor dashboard functionality utilizes the [Streamlit](http://streamlit.io) platform.
 
 The MyWealthPlan Investment Platform is written in Python and uses the [Panel](https://panel.holoviz.org/index.html) dashboarding solution to present information to the user. 
 
@@ -34,14 +34,33 @@ For the Machine Learning Models training, testing and selection, the [scikit-lea
 
 Hyperparameter tuning of the TensorFlow models was accomplished using [KerasTuner](https://keras.io/keras_tuner/).
 
-
 ---
 
-## Installation Guide
+## Installation
 
-The contents of the repository should be placed into the desired folder on the users computer, being sure to maintain the directory structure. 
+### Blockchain 
 
-The application was developed using python version 3.9.16. Other versions of python may work, but no guarantee is made. We suggest usinig a new virtual environment with the correct version of python.
+In order to make use of a local blockchain, which is required for the contact form and client/advisor dashboards, the following must be available/installed:
+* Access to the [Remix](https://remix.ethereum.org/) online IDE for Solidity development
+* A personal/test Etherium blockchain for contract deployment. Development was done using [Ganache](https://trufflesuite.com/ganache/) and all documentation and examples assume it's usage. OS specific installers are available on the Ganache website.
+* A crypto wallet to connect to the blockchain. Development was done using [Metamask](https://metamask.io/). All documentation and examples assume it's usage. Browser extensions for many popular browsers can be downloaded from the Metamask website.
+
+### Node.js
+
+Node.js is required for the functioning of the company website. Development was done using Node.js verison 18.  Other versions may work, but no guarantee is made.
+
+You can verify if Node is installed on your system and determine which version by executing the following command
+
+```
+node --version
+```
+
+If necessary, you can download an installer from the [Node.js website](https://nodejs.org/en).  Mac and Linux users may also use [Node Version Manager (nvm)](https://github.com/nvm-sh/nvm) while those on a Windows platform may use [NVM for Windows](https://github.com/coreybutler/nvm-windows). The use of nvm and nvm-windows is beyond the scope of this project and is you are unfamiliar with node.js we suggest using the installer found on the node.js website.
+
+
+### Python Environment
+
+The Panel and Streamlit dashboard applications were developed using python version 3.9.16. Other versions of python may work, but no guarantee is made. We suggest usinig a new virtual environment with the correct version of python.
 
 The following python packages must be installed to run the application locally:
 * pandas
@@ -55,6 +74,9 @@ The following python packages must be installed to run the application locally:
 * keras-tuner
 * pandas_ta
 * jupyterlab (only if the .ipynb file is used. running the .py file does not require jupyterlab)
+* questionary
+* web3
+* streamlit
 
 These packages may be individually installed into the environment of your choice or you may create a new conda environment using the included environment.yml file. 
 
@@ -67,7 +89,13 @@ If you prefer using pip, the included requirements.txt file may be used to insta
 ```
 pip install -r requirements.txt
 ```
-#### Data Persistence
+---
+
+## Setup
+
+Prior to the initially launching the set of applications, the following setup actions must be taken.
+
+### Data Preparation
 
 Rather than continually make API calls and perform calcuations when data only updates on an at most daily basis, the application relies on preprepared data and images. As such, it is recommended to refresh these data sets and images on a periodic basis,such as weekly or monthly, in order to present more current and relevant information.
 
@@ -90,36 +118,97 @@ python save_best_models.py
 
 Alternatively, you may run the save_best_models.ipynb notebook in jupyter lab
 
+
+
+### Install Node.js modules
+
+After installin node.js and prior to launching the React website you will need to install the necessary node modules. To do so, navigate into the react director and run the following command;
+```
+npm install
+```
+
+This step only needs to be done once, not upon each launch of the application.
+
 ---
 
 ## Launching
 
-The MyWealthPath Investment Platform can be run from the jupyter notebook or by using the included python script. In either case, once launched a [Panel](https://panel.holoviz.org/index.html) dashboard will be displayed.
+In order to launch the MyWealthPlan applications, the following steps should be followed:
 
-To run the included python script (```mywealthpath.py``` issue the following command after switching to the correct python environment:
+### Setup local blockchain
+<< describe how to setup a local blockchain using remix, ganache and metamask>>
+
+Please be sure to have your Ganache URI available as well as the deployed contract address as you will need those during the launch process.
+
+### Launch Applications
+
+In order to simplify the creation of the testing environment a launch.sh script has been provided which is the recommended way to proceed.
+
+The three applications may be launched individually if there is need, such as using alternative IP Addresses from those set with the launch script.
+
+See below for instructions on both launch methods.
+
+#### Launch Script
+
+In order to simplify the creation of the testing environment a launch.sh script has been provided. Before launching the script, please be sure to have your contract address available you will need to enter it at a prompt.
+
+The launch.sh script can be found in the 'scripts' folder and can be launched by running the following, being sure you have already activated a compatable python environment:
 
 ```
-panel serve mywealthpath.py
-```
-This will initiate a local server. Please review the output for the server address, which may then be accessed using the browser of your choice.
-
-<img src="Images/serving.png" height=60%, width=60%>
-
-
-To run the jupyter notebook (```mywealthpath.ipynb```) begin by launching jupyter lab in the correct python environment:
-
-```
-jupyter lab
+bash launch.sh
 ```
 
-After Jupyter Lab is running, open the ```mywealthpath.ipynb``` file from the sidebar and then use Run > Run All Cells from the menu.
+You will be asked to confirm that either no changes were made to the MWP.sol contract file or that you updated the updated  the /solidity_contract/abi.txt file with the new ABI configuration.
 
+Next, you wil be asked to provide the contract address.
+
+Finally, you will be asked to confirm if Ganache is running at the default URI address
+
+At this time the necessary configuration files will be created in the appropriate directories and the three applications will be launched using the following IP addresses:
+
+| Application           | URI            |
+|-----------------------|----------------|
+| React                 | localhost:3000 |
+| Panel Dashboard       | localhost:9501 |
+| Streamlit Application | localhost:8501 |
+
+
+#### Manual Launch
+
+To launch the project components manually, follow the steps outlined below. Each application should be launched from within it's corresponding directory.
+
+1. Activate a compatable python environment
+
+2. Launch the Panel Dashboard, making note of the assigned IP address
+    ```
+    panel serve --port <<desired port>> mywealthpath.py
+    ```
+3. Launch the Streamlit appliction, making note of the assigned IP address
+    ```
+    streamlit run streamlit_interfaces.py --server.headless true --server.port <<desired port>>
+    ```
+4. Run the setup.py file found in the /scripts folder. This script will prompt you for necessary information to create configuration files needed by the project components
+    ```
+    python setup.py
+    ```
+5. Launch the React website
+    ```
+    npm run start
+    ```
+
+At this point all components of the project are running, although only the website has been opened in a browser. The Panel Dashboard and Streamlit application can be launched from the links found on the website. Alternatively, you may launch them manually using the assigned IP addresses.
 
 ---
 
 ## Usage
 
+### React Website 
+<<insert usage instructions for the website, including screenshots>>
 
+### Streamlit Application
+<<insert usage instructions for the Streamlit application, including screenshots>>
+
+### Panel Dashboard
 The left-hand portion of the dashboard consists of a six-question risk tolerance questionnaire. Once the questions are answered and the submit button is clicked the a risk tolerance score will be calculated for the user and they will be assigned a risk tolerance category. 
 
 <img src="Images/Introduction.png" height=60% width=60%>
@@ -146,7 +235,6 @@ It will also show Monte Carlo simulations for the strategy:
 
 With all this information, the Client can clearly see both the past and predicted performance of the base Portfolio (buy and hold) assigned to their risk-aversion level, its performance if they add an 'enhancing' trading strategy, and the benchmark/comparison against a widely used Market reference.
 
-
 ---
 
 ## Contributors
@@ -164,11 +252,13 @@ With all this information, the Client can clearly see both the past and predicte
 License information can be found in the included LICENSE file.
 
 ---
+
 ## Credits
 * Risk Analysis Survey was compiled based upon a survey provided by [Lincoln Financial Group](https://bit.ly/3InwBMP)
 * Code for generating the Monte Carlo Simulation was modified from code provided by UC Berkeley Extension FinTech Bootcamp
 
 ___
+
 ## Future Work
 
 Future work and/or enhancements to this project include:
@@ -178,7 +268,6 @@ Future work and/or enhancements to this project include:
 * Improve visualizations
 * Enhance UI/UX
 * Add a blockchain contracts feature to onboard and sign-up the client
-
 
 ---
 
@@ -191,4 +280,10 @@ Seek a duly licensed professional for investment advice.
 ---
 
 
-<font size = "1"> 1 Ahmad contributed to the initial design of the platform, but was unavailable at the the time the algorithmic tab was added </font>
+<font size = "1"> 1 Ahmad contributed to the initial design of the platform (Stage 1), but was unavailable for continued development </font>
+
+
+
+
+
+
