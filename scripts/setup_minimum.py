@@ -15,6 +15,7 @@ web3Address = "http://127.0.0.1:7545"
 panelURL = "http://localhost:9501"
 streamlitURL = "http://localhost:8501"
 contractAddr = questionary.text("What is the contract address?").ask()
+companyAddr = questionary.text("What is the public address for the account you used to deploy the contract?").ask()
 
 Web3Check = questionary.confirm("Is your Web3 Provider (i.e. Ganache) running at http://127.0.0.1:7545 ?").ask()
 if Web3Check == False:
@@ -22,7 +23,7 @@ if Web3Check == False:
 
 
 with open("../streamlit/.env","w") as envFile:
-    envFile.write(f"""SMART_CONTRACT_ADDRESS = "{contractAddr}"\nWEB3_PROVIDER_URI = "{web3Address}" """)
+    envFile.write(f"""SMART_CONTRACT_ADDRESS = "{contractAddr}"\nWEB3_PROVIDER_URI = "{web3Address}"\nCOMPANY_ADDRESS ="{companyAddr}" """)
 
 with open("../streamlit/abi.json","w") as abi:
     abi.write(f"{abiData_lower}")
