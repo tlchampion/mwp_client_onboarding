@@ -136,7 +136,36 @@ This step only needs to be done once, not upon each launch of the application.
 In order to launch the MyWealthPlan applications, the following steps should be followed:
 
 ### Setup local blockchain
-<< describe how to setup a local blockchain using remix, ganache and metamask>>
+
+For setting up a local blockchain using remix, ganache and metamask:
+
+* Go to the [Remix](https://remix.ethereum.org/) IDE and open the project folder by importing it.
+
+<img src="Images/remix_ide.png" height=50% width=50%>
+
+* Download [Ganache](https://trufflesuite.com/ganache/), create an account and open a ethereum Workspace on it:
+
+<img src="Images/ganache.png" height=60% width=60%>
+
+* Install [Metamask](https://chrome.google.com/webstore/detail/metamask) on your browser. Then go to "Unblock", introduce the 12-word mnemonic key provided in your Ganache workspace and set a password:
+
+<img src="Images/metamask.png" height=60% width=60%>
+
+* Then go to Metamask and create a new account linked to your Ganache workspace as follows:
+
+<img src="Images/account_setting.png" height=60% width=60%>
+
+* Back in Remix, open the ```MWP.sol``` contract contained on the ```solidity_contract``` folder and compile it to check the absence of errors and get the ABI:
+
+<img src="Images/compile.png" height=60% width=60%>
+ 
+* On the Deployment section in Remix, choose Metamask as 'Injected Provider', click 'Deploy' and the Metamask interface should open for connecting:
+
+<img src="Images/connection.png" height=60% width=60%>
+
+* Finally, Deploy the contract by clicking the "Deploy" button in Remix, accept the transaction costs that will pop on Metamask, and the contract address will be generated:
+
+<img src="Images/deployed.png" height=60% width=60%>
 
 Please be sure to have your Ganache URI available as well as the deployed contract address as you will need those during the launch process.
 
