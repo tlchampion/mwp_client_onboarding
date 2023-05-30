@@ -21,7 +21,7 @@ import modules.HistoricalData as hst
 import modules.MCTab as MCTab
 import modules.intro as intro
 import modules.profile as prf
-import modules.algorithmic_functions as af
+
 import modules.AlgoTab as at
 from pandas.tseries.offsets import DateOffset
 from joblib import dump, load
@@ -35,7 +35,7 @@ from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from pandas.tseries.offsets import DateOffset
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import classification_report, roc_auc_score, f1_score 
+from sklearn.metrics import classification_report, roc_auc_score, f1_score
 from sklearn.ensemble import RandomForestClassifier
 
 
@@ -66,7 +66,7 @@ def download_historical_data():
             weight = weights.loc[ticker,'weight']
             dfs_weighted = dfs * weight
             df = df + dfs_weighted
-        filepath = Path(f"../data/historical/{c}.csv")   
+        filepath = Path(f"../data/historical/{c}.csv")
         df.to_csv(filepath)
 
 
@@ -86,7 +86,7 @@ def add_indicators(df):
         {"kind": "ohlc4"},
         {"kind": "linreg"},
         {"kind": "stoch"}
-        
+
     ]
 )
     df.ta.strategy(MyStrategy)
@@ -116,7 +116,7 @@ def add_signals(df):
         if row['PCTRET_1'] >= 0:
             df.loc[index,'performance_signal'] = 1
 
-        
+
         sma_position = 0
         # create signal column based upon SMA
         # buy if sma30 >= sma100, sell if SMA30 < SMA 100
@@ -130,18 +130,18 @@ def add_signals(df):
 
         if row['SMA_30'] >= row['SMA_100']:
             df.loc[index,'SMA_signal'] = 1
-           
+
         elif row['SMA_30'] < row['SMA_100']:
             df.loc[index,'SMA_signal'] = 0
-           
-            
+
+
         # create signal column based upon MACD
         # buy if MACD >= MACDs, sell if MACD < MACDs
         if row['MACD_12_26_9'] >= row['MACDs_12_26_9']:
             df.loc[index,'MACD_signal'] = 1
-       
-    
-            
+
+
+
         # create signal column based upon Bollinger Bands
         # if closing price is <= lower bollinger band trigger a buy condition if not already in a buy condition
         # if closing price is > lower bollinger band trigger a sell condition if not already in a sell condition
@@ -153,9 +153,9 @@ def add_signals(df):
         elif row['close'] >  row['BBU_20_2.0'] and bb_position != 0:
             df.loc[index,'BB_signal'] = 0
             bb_position = 0
-        else: 
+        else:
             df.loc[index,'BB_signal'] = bb_position
-        
+
         # generate RSI signal column
         # if rsi <= 30 a buy condition is set unless already in a buy condition
         # if rsi > 30 a sell condition is set unless already in a sell condition
@@ -167,9 +167,9 @@ def add_signals(df):
         elif row['RSI_14'] >=  70 and rsi_position != 0:
             df.loc[index,'RSI_signal'] = 0
             rsi_position = 0
-        else: 
-            df.loc[index,'RSI_signal'] = rsi_position 
-        
+        else:
+            df.loc[index,'RSI_signal'] = rsi_position
+
 
         # generate STOCH signal
         # if STOCHk < 20 a buy condition is triggered unless already in a buy condition
@@ -184,9 +184,9 @@ def add_signals(df):
             stoch_position = 0
         else:
             df.loc[index, 'STOCH_signal'] = stoch_position
-            
-    
-    return df 
+
+
+    return df
 
 
 # convert stock performance dataframe into dataframe containing market indicators
@@ -209,7 +209,7 @@ def build_portfolio_signal_ml_df(name):
 # cash holdings, daily returns and cumulative returns based upon investment strategy buy/sell signals
 # also add daily returns and cumulative returns for portfolio without factoring in buy/sell signals
 def calculate_daily_values(df, signal, initial_capital=default_initial_investment, share_size=500):
-    
+
     # daily position in portfolio is determined by a base investment in the portfolio equal to
     # that portfolios share size (X).
     # if in a 'buy' status for that day the share size is doubled (position = 2X)
@@ -238,18 +238,18 @@ def calculate_daily_values(df, signal, initial_capital=default_initial_investmen
 
     # Calculate the portfolio cumulative returns
     df['Portfolio Cumulative Returns'] = (1 + df['Portfolio Daily Returns']).cumprod() - 1
-    
+
     # Calculate the daily returns for non-strategy trading
     # this is based on the portfolios close price, not calcualted portfolo value
     df['Base Daily Returns'] = df['close'].pct_change()
-    
+
     # Calculate the cumulative returns for non-strategy trading
     # this is based on the portfolios close price, not calcualted portfolo value
     df['Base Cumulative Returns'] = (1 + df['Base Daily Returns']).cumprod() - 1
 
     # Calculate the daily returns for S&P 500
     df['Market Daily Returns'] = df['sp_close'].pct_change()
-    
+
     # Calculate the cumulative returns for S&P 500
     df['Market Cumulative Returns'] = (1 + df['Market Daily Returns']).cumprod() - 1
 
@@ -280,7 +280,7 @@ def create_performance_data():
 
     for c in classes:
 
-        
+
         df, ml = build_portfolio_signal_ml_df(c)
         # we will only show performance data for the time period not encompassed by the train/test datasets used for ML training
         # this way comparisons between signal and ml strategies are using the same timeperiod
@@ -297,7 +297,7 @@ def create_performance_data():
         strategies = strategies_list[c]
         for s in strategies:
             ind = s.upper() + '_signal'
-            
+
             performance = calculate_daily_values(df, ind, share_size=share_size)
             performance = performance[['close', ind, 'Position', 'Entry/Exit Position', 'Portfolio Holdings', 'Portfolio Cash',
                                       'Portfolio Total', 'Portfolio Daily Returns', 'Portfolio Cumulative Returns', 'Base Daily Returns', 'Base Cumulative Returns', 'Market Daily Returns', 'Market Cumulative Returns']].loc[start_date:,]
@@ -306,26 +306,26 @@ def create_performance_data():
             file_name = f"performance_data_{s}_{c}.csv"
             file_path = Path(f"../data/performance/{file_name}")
             performance.to_csv(file_path, index=False)
-            
+
         # create performance dataframes for each portfolio for the select ML model
 
 
         # first import and make predictions with the appropriate model for each portfolio
         # prediction dataset was created and saved at the time train/test data was created
         if c not in nn_classes:
-    
-    
-            # import model 
+
+
+            # import model
             filepath = Path(f"../modeling/saved_models/{c}.joblib")
-            
+
             with open(filepath, 'rb') as file:
-                model = load(file) 
+                model = load(file)
             # load data to make predictions on
             dataset = dataset_type[c]
             file = Path(f"../data/ml_prediction_data/X_pred_{dataset}_{c}.csv")
             pred_data = pd.read_csv(file, infer_datetime_format=True, parse_dates=True, index_col = 'Unnamed: 0')
             preds = model.predict(pred_data)
-            
+
         else:
             filepath = Path(f"../modeling/saved_models/{c}.h5")
             dataset = dataset_type[c]
@@ -334,9 +334,9 @@ def create_performance_data():
             pred_data = pd.read_csv(file, infer_datetime_format=True, parse_dates=True, index_col = 'Unnamed: 0')
             predictions = model.predict(pred_data)
             preds = tf.cast(predictions >= 0.5, tf.int32)
-        
-        
-        
+
+
+
         # create dataframe holding model predictions
         preds_df = pd.DataFrame(index=pred_data.index)
         preds_df['model_signal'] = preds
@@ -357,7 +357,7 @@ def create_performance_data():
         filename = f"performance_data_ml_{c}.csv"
         file_path = Path(f"../data/performance/{filename}")
         performance.to_csv(file_path, index=False)
-    
+
 # # create dataframe with daily and cumulative returns for S&P 500
 # def create_market_data():
 #     market = helpers.get_stocks(['^GSPC'])
@@ -368,8 +368,8 @@ def create_performance_data():
 #     market['market_cum_returns'] = (1 + market['market_daily_returns']).cumprod() - 1
 #     market.reset_index(inplace = True)
 #     market.to_csv(Path("../data/at_market_data.csv"), index=False)
- 
-# get closing price for S&P 500   
+
+# get closing price for S&P 500
 def get_sp_close(start_date):
     market = helpers.get_stocks(['^GSPC'])
     market = market['^GSPC']
@@ -392,11 +392,11 @@ def get_sp_close(start_date):
 #         filename = f"ml_prediction_data_{c}.csv"
 #         file_path = Path(f"../data/ml_prediction_data/{filename}")
 #         df.to_csv(file_path, index=False)
- 
+
 
 # for Monte Carlo simulations we need more data than is available in just the predictions dataframe
 # we add in the extra data for the test period as well since it was not used to train the ML model
-# only for evaluation purposes       
+# only for evaluation purposes
 def MC_create_ml_prediction_data():
     classes = ['conservative', 'balanced', 'growth', 'aggressive', 'alternative']
     reduced = ['balanced']
@@ -436,7 +436,7 @@ def MC_create_performance_data():
         strategies = strategies_list[c]
         for s in strategies:
             ind = s.upper() + '_signal'
-            
+
             performance = calculate_daily_values(df, ind, share_size=share_size)
             performance = performance[['close', ind, 'Position', 'Entry/Exit Position', 'Portfolio Holdings', 'Portfolio Cash',
                                       'Portfolio Total', 'Portfolio Daily Returns', 'Portfolio Cumulative Returns', 'Base Daily Returns', 'Base Cumulative Returns', 'Market Daily Returns', 'Market Cumulative Returns']].loc[start_date:,]
@@ -446,29 +446,29 @@ def MC_create_performance_data():
             file_name = f"mc_performance_data_{s}_{c}.csv"
             file_path = Path(f"../MCdata/MCperformance/{file_name}")
             performance.to_csv(file_path, index=False)
-            
+
         # create performance dataframes for each strategy for the select ML model
-       
+
         # import model
         # filepath = Path(f"../modeling/saved_models/{c}.joblib")
         # with open(filepath, 'rb') as file:
-        #     model = load(file) 
+        #     model = load(file)
         # # load data to make predictions on
         # file = Path(f"../MCdata/mc_ml_prediction_data/mc_ml_prediction_data_{c}.csv")
         # pred_data = pd.read_csv(file, infer_datetime_format=True, parse_dates=True, index_col = 'index')
         # preds = model.predict(pred_data)
         if c not in nn_classes:
-    
-    
+
+
             # import model
             filepath = Path(f"../modeling/saved_models/{c}.joblib")
             with open(filepath, 'rb') as file:
-                model = load(file) 
+                model = load(file)
             # load data to make predictions on
             file = Path(f"../MCdata/mc_ml_prediction_data/mc_ml_prediction_data_{c}.csv")
             pred_data = pd.read_csv(file, infer_datetime_format=True, parse_dates=True, index_col = 'index')
             preds = model.predict(pred_data)
-            
+
         else:
             filepath = Path(f"../modeling/saved_models/{c}.h5")
             model = tf.keras.models.load_model(filepath)
@@ -498,18 +498,18 @@ def MC_create_performance_data():
         file_path = Path(f"../MCdata/MCperformance/{filename}")
         performance.to_csv(file_path, index=False)
 
-        
-      
-# create train/test/prediction datasets for each portfolio class        
+
+
+# create train/test/prediction datasets for each portfolio class
 def create_train_test():
-    
+
     portfolios=['conservative', 'balanced','growth',
                                   'aggressive', 'alternative']
     # loop through portfolios and create datasets.
     # train is first 24 months
     # test is next 12 months
     # prediction is remaining
-    
+
     for port in portfolios:
         signals_df, ml_df = build_portfolio_signal_ml_df(f'{port}')
 
@@ -530,7 +530,7 @@ def create_train_test():
         y_train = y.loc[training_begin:training_end]
         y_test = y.loc[training_end:test_end]
         y_pred = y.loc[test_end:]
-        
+
 
         # # save X_train/test datasets
         X_train.to_csv(Path(f"../modeling/data/X_train_full_{port}.csv"))
@@ -541,10 +541,10 @@ def create_train_test():
         y_train.to_csv(Path(f"../modeling/data/y_train_{port}.csv"))
         y_test.to_csv(Path(f"../modeling/data/y_test_{port}.csv"))
         y_pred.to_csv(Path(f"../data/ml_prediction_data/y_pred_{port}.csv"))
-        
-        
-        
-        
+
+
+
+
         # reduce features in datasets
         X_train = X_train[['SMA_200', 'EMA_50', 'BBL_20_2.0','BBM_20_2.0',
                           'BBU_20_2.0','BBB_20_2.0','BBP_20_2.0']]
@@ -552,12 +552,12 @@ def create_train_test():
                           'BBU_20_2.0','BBB_20_2.0','BBP_20_2.0']]
         X_pred = X_pred[['SMA_200', 'EMA_50', 'BBL_20_2.0','BBM_20_2.0',
                           'BBU_20_2.0','BBB_20_2.0','BBP_20_2.0']]
-        
+
         # # save X_train/test datasets with reduced features
         X_train.to_csv(Path(f"../modeling/data/X_train_reduced_{port}.csv"))
         X_test.to_csv(Path(f"../modeling/data/X_test_reduced_{port}.csv"))
         X_pred.to_csv(Path(f"../data/ml_prediction_data/X_pred_reduced_{port}.csv"))
-        
+
 
 # compile MC simulation plot, MC distribution plot, MC summary and MC confidence interval verbiage
 def prep_strategy_MC_data(ticker_data):
@@ -589,7 +589,7 @@ def prep_strategy_MC_data(ticker_data):
 
 
 # loop through portfolios and strategies to call prep_strategy_MC_data
-# save resulting Monte Carlo data for display on dashboard 
+# save resulting Monte Carlo data for display on dashboard
 def create_mc_info():
 
     portfolios = ['conservative', 'balanced', 'growth', 'aggressive', 'alternative']
@@ -610,7 +610,7 @@ def create_mc_info():
             filepath = Path(f"../MCdata/mcItems_{s}_{p}.joblib")
             with open(filepath, 'wb') as file:
                 dump(items, file)
-        
+
 
 
 def create_data_only():
@@ -634,4 +634,3 @@ if __name__ == "__main__":
 
 
 
-    

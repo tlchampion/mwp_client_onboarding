@@ -1,6 +1,7 @@
 import questionary
 import sys
 import re
+from pathlib import Path
 
 with open('../solidity_contract/abi.txt', 'r') as abiText:
     abiData = abiText.read()
@@ -39,26 +40,26 @@ if abiCheck:
 
 
 # write .env file for streamlit. Need to add in the contract address and the Web3 provider address
-with open("../streamlit/.env","w") as envFile:
+with open(Path("../streamlit/.env"),"w") as envFile:
     envFile.write(f"""SMART_CONTRACT_ADDRESS = "{contractAddr}"\nWEB3_PROVIDER_URI = "{web3Address}"\nCOMPANY_ADDRESS ="{companyAddr}" """)
 
-with open("../streamlit/abi.json","w") as abi:
+with open(Path("../streamlit/abi.json"),"w") as abi:
     abi.write(f"{abiData_lower}")
 
 # write files for use with react: contract address, ABI, streamlit url, panel url
-with open("../react/src/imports/streamlit.js", "w") as streamlit:
+with open(Path("../react/src/imports/streamlit.js"), "w") as streamlit:
     streamlit.write(f'export const streamlitURL = "{streamlitURL}"')
 
-with open("../react/src/imports/panel.js", "w") as panel:
+with open(Path("../react/src/imports/panel.js"), "w") as panel:
     panel.write(f'export const panelURL = "{panelURL}"')
 
-with open("../react/src/imports/contract.js","w") as contract:
+with open(Path("../react/src/imports/contract.js"),"w") as contract:
     contract.write(f'export const contractAddr = "{contractAddr}"')
 
-with open("../react/src/imports/abi.js", "w") as abi:
+with open(Path("../react/src/imports/abi.js"), "w") as abi:
     abi.write(f"export const contractABI = {abiData_lower}")
 
-with open("../react/.env", "w") as env:
+with open(Path("../react/.env"), "w") as env:
     env.write("GENERATE_SOURCEMAP=false")
 
 
