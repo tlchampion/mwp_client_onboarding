@@ -15,6 +15,7 @@ abiData_lower = re.sub(r"False", "false", abiData_lower)
 web3Address = "http://127.0.0.1:7545"
 panelURL = "http://localhost:9501"
 streamlitURL = "http://localhost:8501"
+print("\n\nWhen entering the addresses requested next, please be sure that your correctly match the capitalization of the copied address\n\n")
 contractAddr = questionary.text("What is the contract address?").ask()
 companyAddr = questionary.text("What is the public address for the account you used to deploy the contract?").ask()
 
