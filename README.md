@@ -167,7 +167,7 @@ For setting up a local blockchain using remix, ganache and metamask:
 
 <img src="Images/deployed.png" height=60% width=60%>
 
-Please be sure to have your Ganache URI available as well as the deployed contract address as you will need those during the launch process.
+Please be sure to have your Ganache URI available as well as the deployed contract address and address of the account you deployed the contract with as you will need those during the launch process.
 
 ### Launch Applications
 
@@ -179,7 +179,7 @@ See below for instructions on both launch methods.
 
 #### Launch Script
 
-In order to simplify the creation of the testing environment a launch.sh script has been provided. Before launching the script, please be sure to have your contract address available you will need to enter it at a prompt.
+In order to simplify the creation of the testing environment a launch.sh script has been provided. Before launching the script, please be sure to have your contract address available as well as the address for the account you deployed the contract with as you will need to enter them during the launching process.
 
 The launch.sh script can be found in the 'scripts' folder and can be launched by running the following, being sure you have already activated a compatable python environment:
 
@@ -200,6 +200,9 @@ At this time the necessary configuration files will be created in the appropriat
 | React                 | localhost:3000 |
 | Panel Dashboard       | localhost:9501 |
 | Streamlit Application | localhost:8501 |
+
+
+When ready, the applications can all be terminated by issue a CTRL-C command in the terminal window where you ran the launch.sh script.
 
 
 #### Manual Launch

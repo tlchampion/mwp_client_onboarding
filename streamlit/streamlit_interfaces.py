@@ -26,10 +26,9 @@ with open(Path("./abi.json")) as file:
 # Contract instance
 contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 accounts = web3.eth.accounts
-clients = []
-for account in accounts:
-    if contract.functions.isUser(account) == True:
-        clients.append(account)
+
+
+
 
 
 
