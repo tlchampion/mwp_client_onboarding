@@ -365,7 +365,7 @@ Future work and/or enhancements to this project include:
 * Adding in features to allow a user to fine-tuning their portfolio
 * Improve visualizations
 * Enhance UI/UX
-* Add a blockchain contracts feature to onboard and sign-up the client
+* Incorporate Streamlit functionality into the node.js-based website
 
 ---
 
