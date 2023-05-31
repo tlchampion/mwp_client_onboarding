@@ -303,6 +303,8 @@ In addition, it allows the company to lookup contact details about a client base
 
 The company is able to transfer funds from the client into the company wallet, where it would be used for investment into the client's chosen portfolio. The company may also deposit funds back into the client's account within the contract, such as after divesting from a portfolio in whole or in part. 
 
+Finally, the company employee can use the 'Add Client' and 'Update Client' features to either add a new client to the Solidity contract or to update the name/email/portfolio choice of an existing client.
+
 
 ### Panel Dashboard
 The left-hand portion of the dashboard consists of a six-question risk tolerance questionnaire. Once the questions are answered and the submit button is clicked the a risk tolerance score will be calculated for the user and they will be assigned a risk tolerance category. 
