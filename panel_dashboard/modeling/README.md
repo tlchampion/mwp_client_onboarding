@@ -47,7 +47,7 @@ Each model class had a minimum of 10-plus models built using different parameter
 **GaussianNB**                                             
 
 | model   | var_smoothing | priors       |
-|:---------:|:---------------:|:--------------:|
+|:-------:|:-------------:|:------------:|
 | model1  |               | None         |
 | model2  | 1e-9          | None         |
 | model3  | 1e-5          |  [0.2, 0.8]  |
@@ -65,7 +65,7 @@ Each model class had a minimum of 10-plus models built using different parameter
 **Logistic Regression**
 
 | model   | random_state | max_iter | solver    | penatly    | l1_ratio |
-|:---------:|:--------------:|:----------:|:-----------:|:-------------:|
+|:-------:|:------------:|:--------:|:---------:|:----------:|---------:|
 | model1  | 42           | 10000    | saga      | elasticnet | 0.1      |
 | model2  | 42           | 10000    | saga      | elasticnet | 0.3      |
 | model3  | 42           | 10000    | saga      | elasticnet | 0.5      |
@@ -203,27 +203,27 @@ The first tier involved the Sci-Kit Learn models only, with the intent to determ
 The first tier metrics for each model type are shown below:
 
 ### Bagging Classifier
-<img src="../Images/bagging_tier1metrics.png" height=70% width=70%>
+<img src="../../Images/bagging_tier1metrics.png" height=70% width=70%>
 
 ### GaussianNB
-<img src="../Images/gaussian_tier1metrics.png" height=70% width=70%>
+<img src="../../Images/gaussian_tier1metrics.png" height=70% width=70%>
 
 ### Logistic Regression
 
-<img src="../Images/lr_tier1metrics.png" height=70% width=70%>
+<img src="../../Images/lr_tier1metrics.png" height=70% width=70%>
 
 ### Random Forest
-<img src="../Images/rf_tier1metrics.png" height=70% width=70%>
+<img src="../../Images/rf_tier1metrics.png" height=70% width=70%>
 
 ### SVM
-<img src="../Images/svm_tier1metrics.png" height=70% width=70%>
+<img src="../../Images/svm_tier1metrics.png" height=70% width=70%>
 
 ### Adaboost
-<img src="../Images/adaboost_tier1metrics.png" height=70% width=70%>
+<img src="../../Images/adaboost_tier1metrics.png" height=70% width=70%>
 
 Once the best set of parameters were determined, the metrics for all models were compiled into one table for review to select the best model type per portfolio. The metrics for this second tier selection process were:
 
-<img src="../Images/tier2metrics.png" height=50% width=50%>
+<img src="../../Images/tier2metrics.png" height=50% width=50%>
 
 
 
