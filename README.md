@@ -169,7 +169,9 @@ For setting up a local blockchain using remix, ganache and metamask:
 
 <img src="Images/deployed.png" height=60% width=60%>
 
-Please be sure to have your Ganache URI available as well as the deployed contract address as you will need those during the launch process.
+Please be sure to have your Ganache URI available as well as the deployed contract address and address of the account you deployed the contract with as you will need those during the launch process.
+
+If you updated the smart contract you will need to copy the new ABI configuration and replace the contents of the /solicity_contract/abi.txt file with the updated configuration.
 
 ### Launch Applications
 
@@ -181,7 +183,7 @@ See below for instructions on both launch methods.
 
 #### Launch Script
 
-In order to simplify the creation of the testing environment a launch.sh script has been provided. Before launching the script, please be sure to have your contract address available you will need to enter it at a prompt.
+In order to simplify the creation of the testing environment a launch.sh script has been provided. Before launching the script, please be sure to have your contract address available as well as the address for the account you deployed the contract with as you will need to enter them during the launching process.
 
 The launch.sh script can be found in the 'scripts' folder and can be launched by running the following, being sure you have already activated a compatable python environment:
 
@@ -202,6 +204,9 @@ At this time the necessary configuration files will be created in the appropriat
 | React                 | localhost:3000 |
 | Panel Dashboard       | localhost:9501 |
 | Streamlit Application | localhost:8501 |
+
+
+When ready, the applications can all be terminated by issue a CTRL-C command in the terminal window where you ran the launch.sh script.
 
 
 #### Manual Launch
@@ -234,10 +239,70 @@ At this point all components of the project are running, although only the websi
 ## Usage
 
 ### React Website 
-<<insert usage instructions for the website, including screenshots>>
+
+The node.js supported website serves as the hub of the project components. This site is intended to be a public-facing resource for potential clients to obtain information regarding the services and history of the fictitious investment services company MyWealthPlan.
+
+Upon launch, a simple landing page is provided containing the items described below:
+
+<img src="Images/webpage-mh.png" height=75% width=75%>
+
+1. Links intended for current clients or company employees to take them to their respective dashboards for account activities, such as deposit/withdrawal of funds.  For development purposes both links access the Streamlit app which will provide test functionality of the transaction functions available in the Solidity contract.
+
+2. Link that opens the Panel Dashboard app, which serves as a marketing/infomrational tool for the company, allowing it to showcase it's investment options and performance to prospective clients.
+
+3. Link that launches a Client Engagement Form, which is used to obtain contact information about potential clients and begin the onboarding process.  The form uses the Solidity contract as the processing and storage engine. The contact form is shown below, along with descriptions of its basic funtions:
+
+<img src="Images/contact_form.png" height=75% width=75%>
+
+Once the form is completed and the submit button clicked, the MetaMask extension will open allowing the user to complete the submission process.
+
+<img src="Images/submit_cf.png" height=75% width=75%>
+
+ The users public address is used as the key for storing the submission data, so in order to test multiple submissions it is necessary to switch between test accounts, being sure that each is connected to the website correctly. 
+<img src="Images/check_connection-mh.png" height=25% width=25%>
+
+If not connected, the connection status can be clicken on and then the 'connect' option selected from the next page display
+
+<img src="Images/connect_account-mh.png" height=25% width=25%>
+
+Once successfully submitted, the user will be shown a confirmation page:
+
+<img src="Images/confirmation.png" height=75% width=75%>
 
 ### Streamlit Application
-<<insert usage instructions for the Streamlit application, including screenshots>>
+
+The Streamlit application is a development environment for designing and testing the functionality for the deposit/withdrawal of funds in a client's reserve fund with MyWealthPath, as well as allowing an employee to access contact information about a client. The transactions are all conducted using the Solidity contract.
+
+Prior to utilizing the page at least one client engagement form should be submitted in order to populate the client account list in the Solidity contract.
+
+The Streamlit application consists of two pages, one for the client functionality and one for the advisor/employee functionality. The radio buttons in the left-hand column are used to toggle between the two pages. Functionality for each page is explained below:
+
+#### Client Portal
+
+<img src="Images/streamlit_client.png" height=75% width=75%>
+
+For testing purposes, all addresses available in the running Ganache envrionement area provided in a select box. Only those addresses that have been saved in the smart contract have access to the functions on the page. An address is saved in the smart contract by submitting a Client Engagement Form using that address.
+
+The client page has a mock-up 'Sign In' function that verifies the user is a current client. Client status is based upon the user's public wallet address being saved in the smart contract.
+
+Clients are presented with three options:
+1. Deposit
+2. Withdraw
+3. View Balance
+
+The Deposit and Withdraw functions rely on the value in the 'Amount' text box. The funds are transferred between the client's crypto wallet and their account within the smart contract.
+
+
+#### Advisor/Admin Portal
+
+<img src="Images/streamlit_admin.png" height=75% width=75%>
+
+The Admin portal allows a company employee to view the balance in the contract and in the company's crypto wallet.
+
+In addition, it allows the company to lookup contact details about a client based upon their public address. 
+
+The company is able to transfer funds from the client into the company wallet, where it would be used for investment into the client's chosen portfolio. The company may also deposit funds back into the client's account within the contract, such as after divesting from a portfolio in whole or in part. 
+
 
 ### Panel Dashboard
 The left-hand portion of the dashboard consists of a six-question risk tolerance questionnaire. Once the questions are answered and the submit button is clicked the a risk tolerance score will be calculated for the user and they will be assigned a risk tolerance category. 

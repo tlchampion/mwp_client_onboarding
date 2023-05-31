@@ -26,10 +26,9 @@ with open(Path("./abi.json")) as file:
 # Contract instance
 contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 accounts = web3.eth.accounts
-clients = []
-for account in accounts:
-    if contract.functions.isUser(account) == True:
-        clients.append(account)
+
+
+
 
 
 
@@ -65,6 +64,7 @@ if portal == "Client Portal":
             st.warning("No Account Found.")
 
 
+    st.divider()
 
     st.markdown("### Deposit or Withdrawal of funds :moneybag:")
 
@@ -133,6 +133,8 @@ else:
         contract_balance = contract.functions.getContractBalance().call(
         {'from': company_account})
         st.info(f"Contract Balance: {contract_balance:,} Wei ({convert_to_eth(contract_balance):.4f} ETH)")
+
+    st.divider()
 
     st.markdown("### Sending or Withdrawal of funds :moneybag:")
     company_amount = int(st.number_input("Amount (in Wei)"))
@@ -203,5 +205,29 @@ else:
                 st.error("Not enough funds in client account to cover requested withdrawal")
         else:
             st.warning("Not a current client. Unable to withdraw funds")
+
+    st.divider()
+
+    st.markdown("### Add Client Info")
+
+    c_address = st.text_input("Client Public Address")
+    c_lname = st.text_input("Client First Name")
+    c_fname = st.text_input("Client Last Name")
+    c_email = st.text_input("Client Email Address")
+    c_portfolio = st.text_input("Client Desired Portfolio")
+
+    if st.button("Add/Update Client"):
+        if contract.functions.isUser(c_address).call({'from': company_account}) == True:
+            st.warning("Client already exists. If needing to update user name and/or email address please use 'Update Client' instead")
+        else:
+            contract.functions.insertUser(c_address, c_lname, c_fname, c_email, c_portfolio, 0).transact({"from": company_account})
+            st.success("Client Added")
+
+    if st.button("Update Client"):
+        if contract.functions.isUser(c_address).call({'from': company_account}) == False:
+            st.warning("Client does not exist. Please use 'Client Add' to add a new client.")
+        else:
+            contract.functions.updateUser(c_address, c_lname, c_fname, c_email, c_portfolio).transact({"from": company_account})
+            st.success("Client Info Updated")
 
 
