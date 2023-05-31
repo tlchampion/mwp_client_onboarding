@@ -275,9 +275,9 @@ Prior to utilizing the page at least one client engagement form should be submit
 
 The Streamlit application consists of two pages, one for the client functionality and one for the advisor/employee functionality. The radio buttons in the left-hand column are used to toggle between the two pages. Functionality for each page is explained below:
 
-#### Client page
+#### Client Portal
 
-<img src="Images/client_streamlit.png" height=75% width=75%>
+<img src="Images/streamlit_client.png" height=75% width=75%>
 
 For testing purposes, all addresses available in the running Ganache envrionement area provided in a select box. Only those addresses that have been saved in the smart contract have access to the functions on the page. An address is saved in the smart contract by submitting a Client Engagement Form using that address.
 
@@ -291,9 +291,9 @@ Clients are presented with three options:
 The Deposit and Withdraw functions rely on the value in the 'Amount' text box. The funds are transferred between the client's crypto wallet and their account within the smart contract.
 
 
-#### Advisor page
+#### Advisor/Admin Portal
 
-<img src="Images/company_streamlit.png" height=75% width=75%>
+<img src="Images/streamlit_admin.png" height=75% width=75%>
 
 The Admin portal allows a company employee to view the balance in the contract and in the company's crypto wallet.
 

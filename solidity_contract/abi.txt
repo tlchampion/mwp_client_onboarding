@@ -503,11 +503,26 @@
             },
             {
                 "internalType": "string",
+                "name": "f_name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "l_name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
                 "name": "email",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "portfolio",
                 "type": "string"
             }
         ],
-        "name": "updateUserEmail",
+        "name": "updateUser",
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
