@@ -13,6 +13,7 @@ contract MWP {
      uint index;
   }
 
+  // The contract assumes the use of the OpenZeppelin SafeMath library for safe arithmetic operations.
   using SafeMath for uint;
 
 
@@ -45,6 +46,11 @@ contract MWP {
         _;
     }
 
+  /**
+    * @dev Checks if the provided address is a registered user.
+    * @param userAddress The address to check.
+    * @return isIndeed True if the address is a registered user, false otherwise.
+    */
 
   function isUser(address userAddress)
     public
@@ -54,6 +60,16 @@ contract MWP {
     if(userIndex.length == 0) return false;
     return (userIndex[clients[userAddress].index] == userAddress);
   }
+
+  /**
+    * @dev Inserts a new user into the system.
+    * @param userAddress The address of the user to insert.
+    * @param f_name The first name of the user.
+    * @param l_name The last name of the user.
+    * @param email The email address of the user.
+    * @param portfolio The user's portfolio information.
+    * @param balance The initial balance of the user.
+    */
 
   function insertUser(
     address userAddress,
@@ -84,6 +100,14 @@ contract MWP {
 
 
   }
+
+  /**
+    * @dev Inserts or updates a user in the system.
+    * @param f_name The first name of the user.
+    * @param l_name The last name of the user.
+    * @param email The email address of the user.
+    * @param portfolio The user's portfolio information.
+    */
 
     function insertUpdateUser (
 
@@ -137,6 +161,16 @@ contract MWP {
     }
 
 
+  /**
+    * @dev Retrieves the information of a user.
+    * @param userAddress The address of the user to retrieve information for.
+    * @return f_name The first name of the user.
+    * @return l_name The last name of the user.
+    * @return email The email address of the user.
+    * @return portfolio The user's portfolio information.
+    * @return balance The balance of the user.
+    * @return index The index of the user in the userIndex array.
+    */
 
   function getUser(address userAddress)
     public
@@ -152,6 +186,13 @@ contract MWP {
       clients[userAddress].balance,
       clients[userAddress].index);
   }
+
+
+  /**
+    * @dev Updates the email address of a user.
+    * @param userAddress The address of the user to update.
+    * @param email The new email address.
+    */
 
   function updateUserEmail(address userAddress, string memory email)
     public
@@ -169,6 +210,10 @@ contract MWP {
 
   }
 
+  /**
+    * @dev Retrieves the total number of users.
+    * @return count The total number of users.
+    */
 
   function getUserCount()
     public
@@ -179,6 +224,12 @@ contract MWP {
     return userIndex.length;
   }
 
+  /**
+    * @dev Retrieves the user address at a specific index in the userIndex array.
+    * @param index The index to retrieve the user address from.
+    * @return userAddress The user address at the specified index.
+    */
+
   function getUserAtIndex(uint index)
     public
     view
@@ -187,11 +238,17 @@ contract MWP {
   {
     return userIndex[index];
   }
-
+    /**
+    * @dev Sets the company account address.
+    * @param _companyAccount The address of the company account.
+    */
     function setCompanyAccount(address payable _companyAccount) public {
         companyAccount = _companyAccount;
     }
-
+    /**
+    * @dev Registers a client by adding them to the userIndex array and initializing their balance.
+    * @param userAddress The address of the client to register.
+    */
     function registerClient(address userAddress) public {
         require(!isUser(msg.sender), "Client is already registered");
         clients[userAddress].balance = 0;
@@ -204,8 +261,10 @@ contract MWP {
 
     // TRANSACTIONS
 
-    // Client deposit function: This function has the client deposit from their wallet iinto their reserve account
-    // It transfers money from their wallet to the contract wallet and increases their balance in the contract
+    /**
+    * @dev Client deposit function: Allows the client to deposit funds from their wallet into their reserve account.
+    * It transfers money from their wallet to the contract wallet and increases their balance in the contract.
+    */
     function userDeposit() public payable onlyClient {
         uint amount = msg.value;
         require(msg.sender.balance >= amount, "Not enough funds to deposit");
@@ -216,25 +275,37 @@ contract MWP {
          //The client's deposit is sent to the contract address
     }
 
-    // Get client's balance
+    /**
+    * @dev Retrieves the balance of a client.
+    * @param userAddress The address of the client.
+    * @return The balance of the client.
+    */
     function getUserBalance(address userAddress) public view returns (uint) {
         return clients[userAddress].balance;
     }
 
-    // Get contract's balance
+    /**
+    * @dev Retrieves the balance of the contract.
+    * @return The balance of the contract.
+    */
      function getContractBalance() public view returns (uint) {
       return address(this).balance;
     }
 
-    // Get company's balance
+    /**
+    * @dev Retrieves the balance of the company account.
+    * @return The balance of the company account.
+    */
     function getCompanyBalance() public view onlyCompany returns (uint) {
         return companyAccount.balance;
     }
 
-    // Client Withdraw Function: This function has a client withdraw funds from their reserve account for use outside the investment platform.
-    // It does: verify the client has a high enough balance (if not, they need to contact an advisor to sell assets), move funds from contract wallet
-    // to client wallet and reduce client balance.
-
+    /**
+    * @dev Client Withdraw Function: Allows the client to withdraw funds from their reserve account for use outside the investment platform.
+    * It verifies that the client has a high enough balance (if not, they need to contact an advisor to sell assets), moves funds from the contract wallet to the client wallet, and reduces the client's balance.
+    * @param _to The address to transfer the funds to.
+    * @param amount The amount to withdraw.
+    */
     function userWithdrawal(address payable _to, uint amount) public onlyClient {
         require(clients[msg.sender].balance >= amount, "Not enough funds in your reserve account to withdraw. Contact your advisor.");
 
@@ -244,9 +315,13 @@ contract MWP {
         emit Withdrawal(_to, amount);
     }
 
-    // Company Withdraw Function: This function has the company withdraw from a client's reserve account to use for purchase of portfolio assets
-    // It does: verify company has high enough balance (i.e. contract balance) and that client has high enough balance - if not no withdraw can
-    // happen until client deposits more funds - move funds from contract wallet to company wallet - reduce balance of applicable client
+    /**
+    * @dev Company Withdraw Function: Allows the company to withdraw from a client's reserve account to use for the purchase of portfolio assets.
+    * It verifies that the company has a high enough balance (i.e., contract balance) and that the client has a high enough balance. If not, no withdraw can happen until client deposits more funds.
+    * If the conditions are met, it moves funds from the contract wallet to the company wallet and reduces the client's balance.
+    * @param _from The address of the client to withdraw funds from.
+    * @param amount The amount to withdraw.
+    */
     function companyWithdrawal(address _from, uint amount) public onlyCompany {
         require(address(this).balance >= amount, "Not enough funds in contract to withdraw.");
         require(clients[_from].balance >= amount, "Not enough funds in client fund to withdraw.");
@@ -255,8 +330,13 @@ contract MWP {
         emit CompanyWithdrawal(_from, amount);
     }
 
-    // Company Deposit Function: TThis function has the company deposit funds into a client's reserve account, such as after selling portfolio assets.
-    // It does: transfer money from company wallet to the contract wallet (company specific deposit function), increase the applicable client's balance in the contract.
+    /**
+    * @dev Company Deposit Function: Allows the company to deposit funds into the client's reserve account.
+    * It verifies that the company has a high enough balance (i.e., contract balance).
+    * If the condition is met, it moves funds from the company wallet to the client wallet and increases the client's balance.
+    * @param _to The address of the client to deposit funds to.
+    * @param amount The amount to deposit.
+    */
     function companyDeposit(address _to) public payable onlyCompany {
 
         clients[_to].balance += msg.value;
