@@ -10,6 +10,8 @@ This project consists of three related applications intended for use by a fictit
 
 A blockchain smart contract written using the Solidity language provides the backbone for the contact form as well as for the financial transactions between the client and company.
 
+And a more detailed presentation can be found [Here](./MyWealthPath_Project_3.pptx).  
+
 ---
 
 ## Technologies
