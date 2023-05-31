@@ -335,7 +335,6 @@ contract MWP {
     * It verifies that the company has a high enough balance (i.e., contract balance).
     * If the condition is met, it moves funds from the company wallet to the client wallet and increases the client's balance.
     * @param _to The address of the client to deposit funds to.
-    * @param amount The amount to deposit.
     */
     function companyDeposit(address _to) public payable onlyCompany {
 
