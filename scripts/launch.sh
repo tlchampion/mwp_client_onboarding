@@ -2,12 +2,26 @@
 
 while true; do
 
-read -p "Did either leave the solidity contract as-is, or if you modified it did you copy the new ABI configuration to the abi.txt file as instructed? (Y/n)" yn
+read -p "Did you either leave the solidity contract as-is or, if you modified it, did you copy the new ABI configuration to the abi.txt file as instructed? (Y/n)" yn
 
 case $yn in
 	[yY] ) echo OK, proceeding;
 		break;;
-	[nN] ) echo Please update the abi.txt file as instructed;
+	[nN] ) echo Aborting launch. Please update the /solidity_contract/abi.txt file with the updated ABI configuration information and rerun this launch script;
+		exit;;
+	* ) echo invalid response;;
+esac
+
+done
+
+while true; do
+
+read -p "Did you activate a compatable python environment? (Y/n)" yn
+
+case $yn in
+	[yY] ) echo OK, proceeding;
+		break;;
+	[nN] ) echo Aborting launch. Please activate correct python environment and rerun this launch script;
 		exit;;
 	* ) echo invalid response;;
 esac

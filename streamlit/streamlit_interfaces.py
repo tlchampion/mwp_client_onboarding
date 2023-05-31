@@ -101,7 +101,7 @@ if portal == "Client Portal":
         else:
             st.warning("Only registered clients may withdraw funds")
 
-
+# client viewing their current balance
     if st.button("View Balance"):
         if contract.functions.isUser(account_address).call({'from': account_address}) == True:
             client_balance = contract.functions.getUserBalance(
@@ -144,16 +144,13 @@ else:
     # Display Client Data
     if st.button("Display Client Data"):
         if contract.functions.isUser(client_address).call({'from': company_account}) == True:
-            f_name = contract.functions.getUser(
-                client_address).call({'from': client_address})[0]
-            l_name = contract.functions.getUser(
-                client_address).call({'from': client_address})[1]
-            email = contract.functions.getUser(
-                client_address).call({'from': client_address})[2]
-            portfolio = contract.functions.getUser(
-                client_address).call({'from': client_address})[3]
-            balance = contract.functions.getUser(
-            client_address).call({'from': client_address})[4]
+            info = contract.functions.getUser(
+            client_address).call({'from': company_account})
+            f_name = info[0]
+            l_name = info[1]
+            email = info[2]
+            portfolio = info[3]
+            balance = info[4]
 
 
 
@@ -178,7 +175,7 @@ else:
                 company_balance = contract.functions.getCompanyBalance().call(
                     {'from': company_account})
                 contract_balance = contract.functions.getContractBalance().call({'from': company_account})
-                client_balance = contract.functions.getUser(client_address).call({'from': client_address})[4]
+                client_balance = contract.functions.getUser(client_address).call({'from': company_account})[4]
                 st.success(f"The remaining company Balance is: {company_balance:,} Wei ({convert_to_eth(company_balance):.4f} ETH)")
                 st.success(f"The current contract balance is {contract_balance:,} Wei ({convert_to_eth(contract_balance):.4f} ETH)")
                 st.success(f"The client's balance is {client_balance:,} Wei ({convert_to_eth(client_balance):.4f} ETH)\n")
@@ -190,14 +187,14 @@ else:
     # Withdraw Money from Client
     if st.button("Withdraw Funds From Client Account"):
         if contract.functions.isUser(client_address).call({'from': company_account}) == True:
-            if contract.functions.getUser(client_address).call({'from': client_address})[4] >= company_amount:
+            if contract.functions.getUser(client_address).call({'from': company_account})[4] >= company_amount:
                 contract.functions.companyWithdrawal(client_address,company_amount).transact({'from': company_account})
                 st.success("Money received from client's account!")
                 # Check Company Balance
                 company_balance = contract.functions.getCompanyBalance().call(
                     {'from': company_account})
                 contract_balance = contract.functions.getContractBalance().call({'from': company_account})
-                client_balance = contract.functions.getUser(client_address).call({'from': client_address})[4]
+                client_balance = contract.functions.getUser(client_address).call({'from': company_account})[4]
                 st.success(f"The new company balance is: {company_balance:,} Wei ({convert_to_eth(company_balance):.4f} ETH)")
                 st.success(f"The current contract balance is {contract_balance:,} Wei ({convert_to_eth(contract_balance):.4f} ETH)")
                 st.success(f"The client's balance is {client_balance:,} Wei ({convert_to_eth(client_balance):.4f} ETH)\n")
@@ -208,6 +205,7 @@ else:
 
     st.divider()
 
+# add a new client
     st.markdown("### Add Client Info")
 
     c_address = st.text_input("Client Public Address")
@@ -223,6 +221,7 @@ else:
             contract.functions.insertUser(c_address, c_lname, c_fname, c_email, c_portfolio, 0).transact({"from": company_account})
             st.success("Client Added")
 
+# update an existing client
     if st.button("Update Client"):
         if contract.functions.isUser(c_address).call({'from': company_account}) == False:
             st.warning("Client does not exist. Please use 'Client Add' to add a new client.")
